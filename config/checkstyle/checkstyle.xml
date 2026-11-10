@@ -1,0 +1,33 @@
+<?xml version="1.0"?>
+<!DOCTYPE module PUBLIC
+    "-//Checkstyle//DTD Checkstyle Configuration 1.3//EN"
+    "https://checkstyle.org/dtds/configuration_1_3.dtd">
+<!-- A small rule set for the fixture. Every violation fails the build (maxWarnings is 0). -->
+<module name="Checker">
+  <property name="severity" value="error"/>
+  <property name="charset" value="UTF-8"/>
+
+  <module name="NewlineAtEndOfFile"/>
+  <module name="FileTabCharacter"/>
+  <module name="LineLength">
+    <property name="max" value="120"/>
+  </module>
+
+  <module name="TreeWalker">
+    <module name="AvoidStarImport"/>
+    <module name="UnusedImports"/>
+    <module name="RedundantImport"/>
+    <module name="NeedBraces"/>
+    <module name="WhitespaceAround"/>
+    <module name="WhitespaceAfter"/>
+    <module name="ModifierOrder"/>
+    <module name="EmptyStatement"/>
+    <module name="FinalClass"/>
+    <module name="MissingJavadocType">
+      <property name="scope" value="public"/>
+    </module>
+    <module name="MissingJavadocMethod">
+      <property name="scope" value="public"/>
+    </module>
+  </module>
+</module>
