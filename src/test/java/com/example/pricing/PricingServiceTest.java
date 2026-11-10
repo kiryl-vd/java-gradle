@@ -25,4 +25,31 @@ class PricingServiceTest {
     void rejectsAQuantityBelowOne() {
         assertThrows(IllegalArgumentException.class, () -> service.totalCents(1000, 0, CustomerTier.GOLD));
     }
+
+    @Test
+    void freeShippingForALargeTotal() {
+        assertEquals(0, service.shippingCents(12000));
+    }
+
+    @Test
+    void freeShippingAtTheThreshold() {
+        assertEquals(0, service.shippingCents(5000));
+    }
+
+    @Test
+    void flatShippingForASmallTotal() {
+        assertEquals(499, service.shippingCents(1000));
+    }
+
+    @Test
+    void flatShippingJustBelowTheThreshold() {
+        assertEquals(499, service.shippingCents(4999));
+    }
+
+    @Test
+    void rejectsANegativeTotal() {
+        final IllegalArgumentException error =
+                assertThrows(IllegalArgumentException.class, () -> service.shippingCents(-1));
+        assertEquals("The total must not be negative", error.getMessage());
+    }
 }

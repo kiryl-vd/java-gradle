@@ -3,6 +3,8 @@ package com.example.pricing;
 /** Computes prices in cents. The service keeps no state and calls no other system. */
 public final class PricingService {
     private static final int PERCENT = 100;
+    private static final long FREE_SHIPPING_THRESHOLD_CENTS = 5000;
+    private static final long FLAT_SHIPPING_CENTS = 499;
 
     /**
      * Returns the discount in percent for a customer tier.
@@ -35,5 +37,21 @@ public final class PricingService {
         }
         final long gross = unitPriceCents * quantity;
         return gross * (PERCENT - tierDiscountPercent(tier)) / PERCENT;
+    }
+
+    /**
+     * Returns the shipping cost for an order.
+     *
+     * @param orderTotalCents the order total in cents after the tier discount, not negative
+     * @return 0 when the total is 5000 cents or more, otherwise 499 cents
+     */
+    public long shippingCents(final long orderTotalCents) {
+        if (orderTotalCents < 0) {
+            throw new IllegalArgumentException("The total must not be negative");
+        }
+        if (orderTotalCents >= FREE_SHIPPING_THRESHOLD_CENTS) {
+            return 0;
+        }
+        return FLAT_SHIPPING_CENTS;
     }
 }
